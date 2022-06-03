@@ -10,6 +10,8 @@ productRoutes.get('products?keyword=something', getProductKeyword);
 
 productRoutes.post('/products/create', createProduct);
 
+productRoutes.delete('/products/:product_id', deleteProduct);
+
 
 
 
