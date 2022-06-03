@@ -8,6 +8,9 @@ productRoutes.get('/products', getProduct);
 productRoutes.get('/products/:product_id', getProductId);
 productRoutes.get('products?keyword=something', getProductKeyword);
 
+productRoutes.post('/products/create', createProduct);
+
+
 
 
 export default productRoutes;
