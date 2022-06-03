@@ -11,11 +11,18 @@ class ProductController{
 
     getProductId= ()=>{
 
-    }
+    };
 
     getProductKeyword= ()=>{
         
-    }
+    };
+
+    createProduct= ()=>{
+
+    };
+    deleteProduct = () =>{
+
+    };
 };
 
 
