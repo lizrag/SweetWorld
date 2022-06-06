@@ -1,30 +1,17 @@
+class ProductController {
+  constructor() {
+    this.products = [];
+  }
 
-class ProductController{
+  getProducts = () => {};
 
-    constructor(){
-        this.products = [];
-    }
+  getProductById = (id) => {};
 
-    getProduct= () => {
+  getProductsByKeyword = (keyword) => {};
 
-    };
+  createProduct = (product) => {};
 
-    getProductId= ()=>{
-
-    };
-
-    getProductKeyword= ()=>{
-        
-    };
-
-    createProduct= ()=>{
-
-    };
-    deleteProduct = () =>{
-
-    };
-};
-
-
+  deleteProduct = (id) => {};
+}
 
 export default ProductController;
