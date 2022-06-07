@@ -3,15 +3,15 @@ class ProductController {
     this.products = [];
   }
 
-  getProducts = () => {};
+  getProducts = (req, res) => {};
 
-  getProductById = (id) => {};
+  getProductById = (req,res) => {};
 
-  getProductsByKeyword = (keyword) => {};
+  getProductsByKeyword = (req, res) => {};
 
-  createProduct = (product) => {};
+  createProduct = (req, res,) => {};
 
-  deleteProduct = (id) => {};
+  deleteProduct = (req, res) => {};
 }
 
-export default new ProductController;
+export default new ProductController();
