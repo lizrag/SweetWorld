@@ -14,4 +14,4 @@ class ProductController {
   deleteProduct = (id) => {};
 }
 
-export default ProductController;
+export default new ProductController;
