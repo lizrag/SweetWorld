@@ -5,7 +5,7 @@ const userRoutes = Router();
 
 userRoutes.get("/users", userController.getUsers);
 userRoutes.get("/users/:user_id/carts", userController.getCartsByUserId);
-userRoutes.get("/users/:user_id/:status", userController.getCartsByUserIdAndStatus);
+
 userRoutes.post("/users/create", userController.createUser);
 
 userRoutes.put("/users/:user_id", userController.updateUser);

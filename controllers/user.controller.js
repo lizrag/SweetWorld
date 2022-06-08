@@ -7,8 +7,6 @@ class UserController {
   
     getCartsByUserId = (req, res) => {};
   
-    getCartsByUserIdAndStatus = (req, res) => {};
-  
     createUser = (req, res) => {};
   
     updateUser = (req, res) => {};
