@@ -1,13 +1,13 @@
 import express from "express";
-import productRoutes from "./routers/productRouter.js";
-import cartRoutes from "./routers/cartRouter.js";
+import productRoutes from "./routes/product.routes.js";
+import cartRoutes from "./routes/cart.routes.js";
 
 const app = express();
 const PORT = 8080;
 
-app.use('api/', productRoutes);
-app.use('api/', cartRoutes);
+app.use("api/", productRoutes);
+app.use("api/", cartRoutes);
 
-app.listen(PORT, ()=>{
-    console.log(`Listening on port ${PORT}`)
+app.listen(PORT, () => {
+  console.log(`Listening on port ${PORT}`);
 });
