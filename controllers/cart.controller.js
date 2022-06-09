@@ -7,9 +7,9 @@ class CartController {
   
     createCart = (req,res) => {};
   
-    addProductCart = (req,res) => {};
+    addProductToCart = (req,res) => {};
 
-    deleteProductCart = (req,res) => {};
+    deleteProductFromCart = (req,res) => {};
   }
 
   export default new CartController();
