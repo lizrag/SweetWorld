@@ -10,7 +10,7 @@ const PORT = 8080;
 app.use("api/", productRoutes);
 app.use("api/", cartRoutes);
 app.use('api/', userRoutes);
-app.use('/api', authRoutes);
+app.use('api/', authRoutes);
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);

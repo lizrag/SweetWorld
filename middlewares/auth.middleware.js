@@ -1,6 +1,6 @@
 
 //admin role, user role & tokens
-roleAuth = (roles) =>{
+const authMiddleware = (req,res,next) =>{
     try{
 
     }catch{
@@ -8,4 +8,4 @@ roleAuth = (roles) =>{
     }
 };
 
-export default roleAuth;
+export default authMiddleware;

@@ -1,5 +1,11 @@
 //user and password
 
-function login(req, res) {};
+class AuthController {
+    constructor (){};
 
-export default login;
+    login = (req,res) => {};
+    logout = (req,res) => {};
+
+};
+
+export default new AuthController();
