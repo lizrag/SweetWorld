@@ -7,30 +7,33 @@ class ProductController {
 
   getProducts = async (req, res) => {
     try {
+      const keyword = req.query.keyword;
+      if (keyword) {
+        const productsFilteredArray = await this.getProductsByKeyword(keyword);
+        return res.json(productsFilteredArray);
+      }
+
       const arrayProducts = await Products.find();
-      res.json(arrayProducts);
+      return res.json(arrayProducts);
     } catch (error) {
-      res.json({success:false,message:error})
+      return res.json({ success: false, message: error });
     }
+  };
+
+  getProductsByKeyword = async (keyword) => {
+    const arrayProducts = await Products.find({
+      name: { $regex: `.*${keyword}` },
+    });
+    return arrayProducts;
   };
 
   getProductById = async (req, res) => {
-    const idProduct = req.params.id;
+    const productId = req.params.product_id;
     try {
-      const productId = await Products.findOne(idProduct);
-      res.json(productId);
+      const product = await Products.findById(productId);
+      return res.json(product);
     } catch (error) {
-      res.json({success:false,message:error})
-    }
-  };
-
-  getProductsByKeyword = async (req, res) => {
-    const keyword = req.body.keyword;
-    try{
-      let productByKeyword = await Products.find({description:{$regex:`.*${keyword}`}});
-      res.json(productByKeyword);
-    }catch(error){
-      res.json({success:false,message:error})
+      return res.json({ success: false, message: error });
     }
   };
 
@@ -44,24 +47,21 @@ class ProductController {
     try {
       await Products.create(productData);
     } catch (error) {
-      res.json({success:false,message:error})
+      return res.json({ success: false, message: error });
     }
     return res.json(productData);
   };
 
   deleteProduct = async (req, res) => {
-    const id = req.params.id;
+    const productId = req.params.product_id;
     try {
-      let productDelete = await Products.findByIdAndDelete({ _id: id });
-      if (!productDelete) {
-        console.log(404, "ID not found");
-      } else {
-        console.log(productDelete);
-      }
+      const product = await Products.findById(productId);
+      await product.remove();
+      return res.send({success:true});
     } catch (error) {
-      res.json({success:false,message:error})
+      return res.json({ success: false, message: error });
     }
-    return res.send("Product was deleted sucessfully");
   };
-}
+};
+
 export default new ProductController();
