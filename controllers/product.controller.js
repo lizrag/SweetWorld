@@ -10,17 +10,29 @@ class ProductController {
       const arrayProducts = await Products.find();
       res.json(arrayProducts);
     } catch (error) {
-      console.log(error);
+      res.json({success:false,message:error})
     }
   };
 
   getProductById = async (req, res) => {
     const idProduct = req.params.id;
     try {
-    } catch (error) {}
+      const productId = await Products.findOne(idProduct);
+      res.json(productId);
+    } catch (error) {
+      res.json({success:false,message:error})
+    }
   };
 
-  getProductsByKeyword = (req, res) => {};
+  getProductsByKeyword = async (req, res) => {
+    const keyword = req.body.keyword;
+    try{
+      let productByKeyword = await Products.find({description:{$regex:`.*${keyword}`}});
+      res.json(productByKeyword);
+    }catch(error){
+      res.json({success:false,message:error})
+    }
+  };
 
   createProduct = async (req, res) => {
     let productData = {
@@ -32,7 +44,7 @@ class ProductController {
     try {
       await Products.create(productData);
     } catch (error) {
-      console.log(error);
+      res.json({success:false,message:error})
     }
     return res.json(productData);
   };
@@ -47,7 +59,7 @@ class ProductController {
         console.log(productDelete);
       }
     } catch (error) {
-      console.log(error);
+      res.json({success:false,message:error})
     }
     return res.send("Product was deleted sucessfully");
   };
