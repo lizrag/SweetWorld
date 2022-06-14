@@ -6,8 +6,8 @@ const cartRoutes = Router();
 cartRoutes.get("/carts/:cart_id", cartController.getCartById);
 
 cartRoutes.post("/cart/create", cartController.createCart);
-cartRoutes.post("/cart/:cart_id/product", cartController.addProductCart);
+cartRoutes.post("/cart/:cart_id/product", cartController.addProductToCart);
 
-cartRoutes.delete("/carts/:cart_id/product", cartController.deleteProductCart);
+cartRoutes.delete("/carts/:cart_id/product", cartController.deleteProductFromCart);
 
 export default cartRoutes;
