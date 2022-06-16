@@ -52,28 +52,27 @@ class ProductController {
     return res.json(productData);
   };
 
-  updateProduct = async (req,res) =>{
-    try{
+  updateProduct = async (req, res) => {
+    try {
       const productId = req.params.product_id;
       const updates = req.body;
-      const product = await Products.findByIdAndUpdate(productId,updates);
-      res.send(product);
-    }catch(error){
+      const product = await Products.findByIdAndUpdate(productId, updates);
+      return res.send(product);
+    } catch (error) {
       return res.json({ success: false, message: error });
     }
   };
-
 
   deleteProduct = async (req, res) => {
     const productId = req.params.product_id;
     try {
       const product = await Products.findById(productId);
       await product.remove();
-      return res.send({success:true});
+      return res.send({ success: true });
     } catch (error) {
       return res.json({ success: false, message: error });
     }
   };
-};
+}
 
 export default new ProductController();
