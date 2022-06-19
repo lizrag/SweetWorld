@@ -1,17 +1,26 @@
 import express from "express";
+import mongoose from "mongoose";
 import productRoutes from "./routes/product.routes.js";
 import cartRoutes from "./routes/cart.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import authRoutes from "./routes/auth.routes.js";
+import dotenv from "dotenv";
 
+dotenv.config();
 const app = express();
-const PORT = 8080;
 
-app.use("api/", productRoutes);
-app.use("api/", cartRoutes);
-app.use('api/', userRoutes);
-app.use('api/', authRoutes);
+app.use(express.json());
+app.use("/api", productRoutes);
+app.use("/api", cartRoutes);
+app.use("/api", userRoutes);
+app.use("/api", authRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}`);
+app.listen(process.env.PORT, () => {
+  console.log(`Listening on port ${process.env.PORT}`);
 });
+
+const uri = `mongodb+srv://${process.env.user}:${process.env.password}@cluster0.xqzud.mongodb.net/${process.env.db}?retryWrites=true&w=majority`;
+mongoose
+  .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log("mongodb connected"))
+  .catch((e) => console.log("error", e));
