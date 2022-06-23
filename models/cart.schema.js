@@ -6,14 +6,15 @@ const cartSchema = new Schema({
   status: {
     type: Boolean,
     required: true,
+    default: 1
   },
   user_id: {
     type: Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Users",
   },
   total: {
     type: Number,
-    required: true,
+    required: false,
   },
   created_at: {
     type: Date,
@@ -23,11 +24,11 @@ const cartSchema = new Schema({
     {
       cart_id: {
         type: Schema.Types.ObjectId,
-        ref: "cart",
+        ref: "Carts",
       },
       products_id: {
         type: Schema.Types.ObjectId,
-        ref: "user",
+        ref: "Users",
       },
       quantity: {
         type: Number,
@@ -36,4 +37,5 @@ const cartSchema = new Schema({
   ],
 });
 
-module.exports = mongoose.model("cart", cartSchema);
+export default  mongoose.model("Carts", cartSchema);
+
