@@ -11,11 +11,6 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  /*
-  role_id: {
-    type: Schema.Types.ObjectId,
-    ref: "user_roles",
-  },*/
   email: {
     type: String,
     required: true,
@@ -29,7 +24,7 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  user_roles: [
+  roles: [
     {
       role: {
         type: String,
@@ -40,38 +35,6 @@ const userSchema = new Schema({
         default: Date.now(),
       },
     },
-  ],
-  carts: [
-    {
-      product_id: {
-        type: Schema.Types.ObjectId,
-        ref: "Products",
-      },
-      total: {
-        type: Number,
-        required: false,
-      },
-      created_at: {
-        type: Date,
-        default: Date.now(),
-      },
-      status: {
-        type: Boolean,
-        required: true,
-        default: 1,
-      },
-      products: [
-        {
-          products_id: {
-            type: Schema.Types.ObjectId,
-            ref: "Products",
-          },
-          quantity: {
-            type: Number,
-          },
-        }
-      ],
-    }
   ],
 });
 

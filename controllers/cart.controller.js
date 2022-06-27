@@ -1,15 +1,10 @@
 import Carts from "../models/cart.schema.js";
-import Users from "../models/user.schema.js";
 
 class CartController {
-  constructor() {
-    this.carts = [];
-  }
-
   getCartById = async (req, res) => {
     let cartId = req.params.cart_id;
     try {
-      const cart = await Carts.findById(cartId);
+      const cart = await Carts.findOne({ _id: cartId });
       return res.json(cart);
     } catch (error) {
       return res.json({ success: false, message: error });
@@ -17,54 +12,106 @@ class CartController {
   };
 
   createCart = async (req, res) => {
-    let { user_id, total, cart_products } = req.body;
-  
-    try{
-      const cartCreated= await Carts.create({user_id, total, cart_products});
-      return res.json(cartCreated);
-    }catch(error){
-      return res.json({success: false, message: error});
-    }
+    const user_id = req.locals.user._id;
 
-    /*try {
-      const cartCreated = await Users.find().populate({
-        path:"carts.product_id",
-        select:"product_id, total"
+    try {
+      const { _id } = await Carts.create({ user_id });
+
+      return res.json({
+        cart_id: _id,
       });
-      return cartCreated[0];
     } catch (error) {
       return res.json({ success: false, message: error });
-    }*/
+    }
   };
 
   addProductToCart = async (req, res) => {
-    const cartId = req.body.cart_id;
-    const productSelected = req.body.product_id;
-    const quantity = Number.parseInt(req.body.quantity);
+    const cartId = req.params.cart_id;
+    const product_id = req.body.product_id;
+    const quantity = req.body.quantity ? Number.parseInt(req.body.quantity) : 1;
+
+    const cart = await Carts.findById(cartId);
+
+    const productInCart = cart.products.find(
+      (product) => product.product_id == product_id
+    );
+
     try {
-      let cartInfo = await Carts.findOne({ _id: cartId });
-      console.log(cartInfo)
-      let productModification = {products_id: productSelected, quantity:quantity}
-      const addProductCart= await Carts.updateOne({_id:cartId}, {$addToSet:{cart_products:productModification}})
-      
-      return res.json(addProductCart);
+      if (productInCart) {
+        const productIndex = cart.products.findIndex(
+          (product) => product.product_id == product_id
+        );
+        await Carts.updateOne(
+          { _id: cartId },
+          {
+            $set: {
+              [`products.${productIndex}`]: {
+                product_id,
+                quantity: productInCart.quantity + quantity,
+              },
+            },
+          }
+        );
+      } else {
+        await Carts.updateOne(
+          { _id: cartId },
+          {
+            $addToSet: {
+              products: {
+                product_id,
+                quantity,
+              },
+            },
+          }
+        );
+      }
     } catch (error) {
-      console.log(error);
-      return res.json({ success: false, message: error });
+      return res.json({ success: false, message: error.message });
     }
+
+    return res.json({
+      success: true,
+      message: `Product ${product_id} added successfully to cart ${cartId}`,
+    });
   };
 
   deleteProductFromCart = async (req, res) => {
-    const productID = req.params.product_id;
-    const cart = req.params.cart_id;
+    const cartId = req.params.cart_id;
+    const product_id = req.body.product_id;
+    const quantity = req.body.quantity ? Number.parseInt(req.body.quantity) : 1; // If not set, delete one
+
+    const cart = await Carts.findById(cartId);
+    console.log(cart);
+
+    const productInCart = cart.products.find(
+      (product) => product.product_id == product_id
+    );
+
     try {
-      const cartSelected = await Carts.findById(cart);
-      const deleteProduct = await cartSelected.findByIdAndRemove(productID);
-      await deleteProduct.remove();
-      return res.send({ success: true });
-    } catch {
-      return res.json({ success: false, message: error });
+      if (productInCart) {
+        const productIndex = cart.products.findIndex(
+          (product) => product.product_id == product_id
+        );
+        await Carts.updateOne(
+          { _id: cartId },
+          {
+            $set: {
+              [`products.${productIndex}`]: {
+                product_id,
+                quantity: productInCart.quantity - quantity,
+              },
+            },
+          }
+        );
+      }
+    } catch (error) {
+      return res.json({ success: false, message: error.message });
     }
+
+    return res.json({
+      success: true,
+      message: `Product ${product_id} deleted successfully from cart ${cartId}`,
+    });
   };
 }
 

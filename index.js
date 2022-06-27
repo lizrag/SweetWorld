@@ -12,15 +12,15 @@ const app = express();
 
 app.use(express.json());
 app.use("/api", authRoutes);
-app.use("/api", cartRoutes);
+app.use("/api", authMiddleware,cartRoutes);
 app.use("/api", authMiddleware, productRoutes);
-app.use("/api", authMiddleware,userRoutes);
+app.use("/api", authMiddleware, userRoutes);
 
 app.listen(process.env.PORT, () => {
   console.log(`Listening on port ${process.env.PORT}`);
 });
 
-const uri = `mongodb+srv://${process.env.user}:${process.env.password}@cluster0.xqzud.mongodb.net/${process.env.db}?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.xqzud.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 mongoose
   .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("mongodb connected"))
