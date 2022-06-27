@@ -6,7 +6,7 @@ const cartSchema = new Schema({
   status: {
     type: Boolean,
     required: true,
-    default: 1
+    default: 1,
   },
   user_id: {
     type: Schema.Types.ObjectId,
@@ -22,13 +22,9 @@ const cartSchema = new Schema({
   },
   cart_products: [
     {
-      cart_id: {
-        type: Schema.Types.ObjectId,
-        ref: "Carts",
-      },
       products_id: {
         type: Schema.Types.ObjectId,
-        ref: "Users",
+        ref: "Products",
       },
       quantity: {
         type: Number,
@@ -37,5 +33,4 @@ const cartSchema = new Schema({
   ],
 });
 
-export default  mongoose.model("Carts", cartSchema);
-
+export default mongoose.model("Carts", cartSchema);

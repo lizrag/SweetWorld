@@ -1,5 +1,6 @@
 import Carts from "../models/cart.schema.js";
-import Products from "../models/product.schema.js";
+import Users from "../models/user.schema.js";
+
 class CartController {
   constructor() {
     this.carts = [];
@@ -16,29 +17,36 @@ class CartController {
   };
 
   createCart = async (req, res) => {
-    let { user_id: userId } = req.body;
-    let cart = { userId };
-    try {
-      const cartCreated = await Carts.create(cart);
+    let { user_id, total, cart_products } = req.body;
+  
+    try{
+      const cartCreated= await Carts.create({user_id, total, cart_products});
       return res.json(cartCreated);
+    }catch(error){
+      return res.json({success: false, message: error});
+    }
+
+    /*try {
+      const cartCreated = await Users.find().populate({
+        path:"carts.product_id",
+        select:"product_id, total"
+      });
+      return cartCreated[0];
     } catch (error) {
       return res.json({ success: false, message: error });
-    }
+    }*/
   };
 
   addProductToCart = async (req, res) => {
-    const cartId = req.params.cart_id;
+    const cartId = req.body.cart_id;
     const productSelected = req.body.product_id;
     const quantity = Number.parseInt(req.body.quantity);
     try {
-      let cartInfo = await Carts.findOne({ id: cartId });
-      let productInfo = await Products.findById(productSelected);
-      const addProductCart = new Carts({
-        cartInfo,
-        productInfo,
-        quantity,
-      });
-      addProductCart.save();
+      let cartInfo = await Carts.findOne({ _id: cartId });
+      console.log(cartInfo)
+      let productModification = {products_id: productSelected, quantity:quantity}
+      const addProductCart= await Carts.updateOne({_id:cartId}, {$addToSet:{cart_products:productModification}})
+      
       return res.json(addProductCart);
     } catch (error) {
       console.log(error);
