@@ -44,12 +44,13 @@ class ProductController {
       price: req.body.price,
       stock: req.body.stock,
     };
+
     try {
-      await Products.create(productData);
+      const newProduct = await Products.create(productData);
+      return res.json(newProduct);
     } catch (error) {
-      return res.json({ success: false, message: error });
+      return res.json({ success: false, message: error.message });
     }
-    return res.json(productData);
   };
 
   updateProduct = async (req, res) => {

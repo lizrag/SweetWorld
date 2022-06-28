@@ -11,10 +11,6 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  role_id: {
-    type: Schema.Types.ObjectId,
-    ref: "user_roles",
-  },
   email: {
     type: String,
     required: true,
@@ -28,7 +24,7 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  user_roles: [
+  roles: [
     {
       role: {
         type: String,
@@ -42,4 +38,5 @@ const userSchema = new Schema({
   ],
 });
 
-module.exports = mongoose.model("user", userSchema);
+export default mongoose.model("Users", userSchema);
+

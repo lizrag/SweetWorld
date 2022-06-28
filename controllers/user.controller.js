@@ -1,15 +1,15 @@
 class UserController {
-    constructor() {
-      this.users = [];
-    }
-  
-    getUsers = (req, res) => {};
-  
-    getCartsByUserId = (req, res) => {};
-  
-    createUser = (req, res) => {};
-  
-    updateUser = (req, res) => {};
+  constructor() {
+    this.users = [];
   }
-  
-  export default new UserController();
+
+  getUsers = (req, res) => {};
+
+  getCartsByUserId = (req, res) => {};
+
+  createUser = (req, res) => {};
+
+  updateUser = (req, res) => {};
+}
+
+export default new UserController();
