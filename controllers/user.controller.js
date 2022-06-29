@@ -55,7 +55,12 @@ class UserController {
       const userId = req.params.user_id;
       const update = req.body;
       const userUpdated = await Users.findByIdAndUpdate(userId, update);
-      return res.send(userUpdated);
+
+      if (!userUpdated) {
+        throw Error("User not found. Check :user_id param");
+      }
+
+      return res.json(userUpdated);
     } catch (error) {
       return res.json({ success: false, message: error.message });
     }
@@ -76,9 +81,24 @@ class UserController {
 
   updateUserProfile = async (req, res) => {
     const userId = req.locals.user._id;
-    const data = req.body;
+    const { name, last_name, email, password, password_confirmation, address } =
+      req.body;
+
+    if (password !== password_confirmation) {
+      return res.json({
+        success: false,
+        message: "Password and password_confirmation inputs must be equals",
+      });
+    }
+
     try {
-      await Users.findByIdAndUpdate(userId, data);
+      await Users.findByIdAndUpdate(userId, {
+        name,
+        last_name,
+        email,
+        password,
+        address,
+      });
       return res.json({
         success: true,
         message: "Your profile has been updated sucessfully",
