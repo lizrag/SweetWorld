@@ -1,12 +1,13 @@
 import { Router } from "express";
 import userController from "../controllers/user.controller.js";
 import adminMiddleware from "../middlewares/admin.middleware.js";
+import validateCreate from "../validators/user.validator.js";
 
 const userRoutes = Router();
 
 userRoutes.get("/users", userController.getUsers);
 
-userRoutes.post("/users/create", userController.createUser);
+userRoutes.post("/users/create", validateCreate, userController.createUser);
 
 // For frontend users
 userRoutes.get("/users/me", userController.getUserProfile);
