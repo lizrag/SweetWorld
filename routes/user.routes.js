@@ -1,5 +1,6 @@
 import { Router } from "express";
 import userController from "../controllers/user.controller.js";
+import adminMiddleware from "../middlewares/admin.middleware.js";
 
 const userRoutes = Router();
 
@@ -13,6 +14,6 @@ userRoutes.put("/users/me", userController.updateUserProfile);
 
 // For admin users
 userRoutes.get("/users/:user_id/carts", userController.getCartsByUserId);
-userRoutes.put("/users/:user_id", userController.updateUser);
+userRoutes.put("/users/:user_id", adminMiddleware, userController.updateUser);
 
 export default userRoutes;

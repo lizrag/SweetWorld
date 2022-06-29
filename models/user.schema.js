@@ -24,18 +24,10 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  roles: [
-    {
-      role: {
-        type: String,
-        required: true,
-      },
-      created_at: {
-        type: Date,
-        default: Date.now(),
-      },
-    },
-  ],
+  rol: {
+    type: String,
+    default: "customer",
+  },
 });
 
 export default mongoose.model("Users", userSchema);
