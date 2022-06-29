@@ -65,6 +65,9 @@ class CartController {
           }
         );
       }
+
+      const cartUpdated = await Carts.findById(cartId);
+      cartUpdated.getTotal();
     } catch (error) {
       return res.json({ success: false, message: error.message });
     }
@@ -81,7 +84,6 @@ class CartController {
     const quantity = req.body.quantity ? Number.parseInt(req.body.quantity) : 1; // If not set, delete one
 
     const cart = await Carts.findById(cartId);
-    console.log(cart);
 
     const productInCart = cart.products.find(
       (product) => product.product_id == product_id
@@ -92,17 +94,32 @@ class CartController {
         const productIndex = cart.products.findIndex(
           (product) => product.product_id == product_id
         );
-        await Carts.updateOne(
-          { _id: cartId },
-          {
-            $set: {
-              [`products.${productIndex}`]: {
-                product_id,
-                quantity: productInCart.quantity - quantity,
+
+        if (productInCart.quantity - quantity <= 0) {
+          await Carts.updateOne(
+            { _id: cartId },
+            {
+              $pull: {
+                products: { $in: [{ ...productInCart }] },
               },
-            },
-          }
-        );
+            }
+          );
+        } else {
+          await Carts.updateOne(
+            { _id: cartId },
+            {
+              $set: {
+                [`products.${productIndex}`]: {
+                  product_id,
+                  quantity: productInCart.quantity - quantity,
+                },
+              },
+            }
+          );
+        }
+
+        const cartUpdated = await Carts.findById(cartId);
+        cartUpdated.getTotal();
       }
     } catch (error) {
       return res.json({ success: false, message: error.message });

@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import Products from "./product.schema.js";
+import Carts from "./cart.schema.js";
 
 const Schema = mongoose.Schema;
 
@@ -9,7 +11,7 @@ const cartSchema = new Schema({
   },
   total: {
     type: Schema.Types.Number,
-    required: false,
+    default: 0,
   },
   created_at: {
     type: Schema.Types.Date,
@@ -32,5 +34,24 @@ const cartSchema = new Schema({
     },
   ],
 });
+
+cartSchema.methods.getTotal = async function () {
+  let total = 0;
+
+  if (this.products.length == 0) {
+    await Carts.findByIdAndUpdate(this._id, {
+      total: 0,
+    });
+  } else {
+    this.products.forEach(async (product) => {
+      const { price } = await Products.findById(product.product_id);
+      total += price * product.quantity;
+
+      await Carts.findByIdAndUpdate(this._id, {
+        total,
+      });
+    });
+  }
+};
 
 export default mongoose.model("Carts", cartSchema);

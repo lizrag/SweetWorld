@@ -25,7 +25,15 @@ class UserController {
   };
 
   createUser = async (req, res) => {
-    let { name, last_name, email, password, address } = req.body;
+    let { name, last_name, email, password, password_confirmation, address } =
+      req.body;
+
+    if (password !== password_confirmation) {
+      return res.json({
+        success: false,
+        message: "Password and password_confirmation inputs must be equals",
+      });
+    }
 
     try {
       const newUser = await Users.create({
@@ -41,15 +49,45 @@ class UserController {
     }
   };
 
+  // This method is used by an admin user to update other users data
   updateUser = async (req, res) => {
-    const user_id = req.locals.user._id;
     try {
-      const user = req.params.user_id;
+      const userId = req.params.user_id;
       const update = req.body;
-      const userUpdated = await Users.findByIdAndUpdate(user, user_id, update);
+      const userUpdated = await Users.findByIdAndUpdate(userId, update);
       return res.send(userUpdated);
     } catch (error) {
       return res.json({ success: false, message: error.message });
+    }
+  };
+
+  getUserProfile = async (req, res) => {
+    const userId = req.locals.user._id;
+    try {
+      const userData = await Users.findById(userId);
+      return res.json(userData);
+    } catch (error) {
+      return res.json({
+        success: false,
+        message: error.message,
+      });
+    }
+  };
+
+  updateUserProfile = async (req, res) => {
+    const userId = req.locals.user._id;
+    const data = req.body;
+    try {
+      await Users.findByIdAndUpdate(userId, data);
+      return res.json({
+        success: true,
+        message: "Your profile has been updated sucessfully",
+      });
+    } catch (error) {
+      return res.json({
+        success: false,
+        message: error.message,
+      });
     }
   };
 }
