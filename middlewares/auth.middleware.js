@@ -10,7 +10,7 @@ const authMiddleware = (req, res, next) => {
 
     return next();
   } catch {
-    return res.json(401, {
+    return res.status(401).send( {
       success: false,
       message:
         "Your authorization token is not valid. Double-check if the token has not expired yet or please, try again",

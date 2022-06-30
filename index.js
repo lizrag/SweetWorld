@@ -6,10 +6,12 @@ import userRoutes from "./routes/user.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import authMiddleware from "./middlewares/auth.middleware.js";
 import dotenv from "dotenv";
+import cors from "cors";
 
 dotenv.config();
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use("/api", authRoutes);
 app.use("/api", authMiddleware,cartRoutes);

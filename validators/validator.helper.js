@@ -5,7 +5,7 @@ const validateResult = (req,res,next) =>{
         validationResult(req).throw()
         return next()
     }catch(error){
-        return res.json({ success: false, message: error.message });
+        return res.json({ success: false, message: error.mapped() });
     }
     
 };
