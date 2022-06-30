@@ -7,11 +7,16 @@ import authRoutes from "./routes/auth.routes.js";
 import authMiddleware from "./middlewares/auth.middleware.js";
 import dotenv from "dotenv";
 import cors from "cors";
+import swaggerUi from "swagger-ui-express";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerSpec from "./config/swagger.config.js"
 
 dotenv.config();
 const app = express();
 
+app.use("/api-doc", swaggerUi.serve, swaggerUi.setup(swaggerJSDoc(swaggerSpec)))
 app.use(cors());
+
 app.use(express.json());
 app.use("/api", authRoutes);
 app.use("/api", authMiddleware,cartRoutes);

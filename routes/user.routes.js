@@ -5,6 +5,22 @@ import validateCreate from "../validators/user.validator.js";
 
 const userRoutes = Router();
 
+/**
+ * @swagger
+ * /api/users:
+ *  get:
+ *    summary: get all users
+ *    tags: [User]
+ *    responses:
+ *      200:
+ *      description: all users
+ *      content: 
+ *        application/json:
+ *        schema:
+ *          type:array
+ *          items:
+ *            $ref: '#/components/schemas/Users'
+ */
 userRoutes.get("/users", userController.getUsers);
 
 userRoutes.post("/users/create", validateCreate, userController.createUser);
