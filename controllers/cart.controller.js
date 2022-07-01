@@ -1,53 +1,7 @@
 import Carts from "../models/cart.schema.js";
 
-/**
- *@swagger
- *components:
- *  schemas:
- *   Carts:
- *     type: object
- *     properties:
- *       status:
- *         type:boolean
- *         description:current status active or not
- *       total:
- *         type:number
- *         description total of the cart
- *       created_at:
- *         type:string
- *         description: date of creation
- *       user_id:
- *         type:string
- *         description: user id
- *       product_id:
- *         type:string
- *         description:product id
- *       quantity:
- *         type:number
- *         description: quantity of items
- *       required:
- *         -user_id
- */
 class CartController {
-  /**
-   * @swagger
-   * /api/carts/{id}:
-   *  get:
-   *    summary: get carts by id
-   *    tags: [Cart]
-   *    parameters:
-   *      - in: path
-   *        name: id
-   *    responses:
-   *      200:
-   *      description: all carts by id
-   *      content:
-   *        application/json:
-   *        schema:
-   *          type:array
-   *          items:
-   *            $ref: '#/components/schemas/Carts'
-   */
+
   getCartById = async (req, res) => {
     let cartId = req.params.cart_id;
     try {
@@ -57,20 +11,7 @@ class CartController {
       return res.json({ success: false, message: error });
     }
   };
-/**
-   * @swagger
-   * /api/products:
-   *  post:
-   *    summary:create new product
-   *    tags: [Product]
-   *    requestBody:
-   *      required:true
-   *      content:
-   *        application/json:
-   *          schema:
-   *            type:object
-   *            $ref: '#/components/schemas/Products'
-   */
+
   createCart = async (req, res) => {
     const user_id = req.locals.user._id;
 

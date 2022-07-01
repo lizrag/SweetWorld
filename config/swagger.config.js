@@ -13,6 +13,6 @@ const swaggerSpec = {
       },
     ],
   },
-  apis: ["../routes/*.js"]
+  apis: ["./routes/*.js"],
 };
 export default swaggerSpec;

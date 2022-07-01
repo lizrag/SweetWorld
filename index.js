@@ -14,7 +14,7 @@ import swaggerSpec from "./config/swagger.config.js"
 dotenv.config();
 const app = express();
 
-app.use("/api-doc", swaggerUi.serve, swaggerUi.setup(swaggerJSDoc(swaggerSpec)))
+app.use("/api-doc", swaggerUi.serve, swaggerUi.setup(swaggerJSDoc(swaggerSpec)));
 app.use(cors());
 
 app.use(express.json());
