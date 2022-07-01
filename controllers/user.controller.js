@@ -2,10 +2,6 @@ import Users from "../models/user.schema.js";
 import Carts from "../models/cart.schema.js";
 
 class UserController {
-  constructor() {
-    this.users = [];
-  }
-
   getUsers = async (req, res) => {
     try {
       const arrayUsers = await Users.find();

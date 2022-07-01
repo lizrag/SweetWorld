@@ -1,6 +1,7 @@
 import Carts from "../models/cart.schema.js";
 
 class CartController {
+
   getCartById = async (req, res) => {
     let cartId = req.params.cart_id;
     try {
